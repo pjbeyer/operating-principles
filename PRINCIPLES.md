@@ -1,6 +1,6 @@
 # Phil's Operating Principles — a personal specification
 
-**Spec version: 1.0.0** · Status: active · Canonical source of record (see *Status & canonical home* below)
+**Spec version: 1.1.0** · Status: active · Canonical source of record (see *Status & canonical home* below)
 
 This document is a **specification for how Phil's entire system of work should operate.** It is not documentation *about* a tool — it is the source specification that tools, devices, services, apps, agents, and even employment positions are expected to **conform to**. When Phil configures an AI agent, sets up a workstation, adopts a service, or evaluates a job, the question is: *does it operate the way this spec describes?*
 
@@ -28,6 +28,13 @@ A tool, device, service, app, agent, or role **conforms to this spec (version 1.
 **Implementations are projections of the spec, not the source.** Hermes skills, a workstation's dotfiles, a project's `AGENTS.md`, a service's settings — each is a *binding* of this spec into a particular substrate. They implement it; they do not own it. When the spec changes, implementations are updated to match — never the reverse.
 
 Conformance is graded, not binary: a system may fully implement some standards, partially others, and be unable to express a few. The goal is to **maximize conformance and make the gaps visible**, not to demand perfection from every substrate.
+
+**Hard vs. soft rules.** Each standard's individual rules are either *hard* or *soft*:
+
+- **Hard rules** must never be violated, no matter the convenience — e.g. *never claim a side-effect succeeded without evidence*, *never write a plaintext secret or print one*, *credential wrappers fail closed*, *no internal identifiers across a trust boundary*. A system that breaks a hard rule is non-conformant, full stop.
+- **Soft rules** are strong defaults that may yield to a stated, justified reason — e.g. *prefer small reversible changes*, *match voice from a sample*, *spec before build*. Yielding is allowed when you say why; silently ignoring is not.
+
+When an implementation can mark its rules, it should label each hard or soft (as in a machine-readable preference file), so the non-negotiable core is unambiguous. Hard rules are the load-bearing safety/honesty floor; soft rules are the craft.
 
 ---
 
@@ -71,7 +78,9 @@ For substantial, hard-to-reverse, or contract-defining work, write the spec/desi
 
 Track durable work in a single canonical, dependency-aware system. Capture meaningful work as a tracked item and close it with evidence rather than leaving it only in conversation. Don't run duplicate or competing trackers. Use dependencies and parent/child structure over loose notes. Reference external systems only by real, dereferenceable identifiers — never stuff internal taxonomy into an external-reference field.
 
-*Foundation: Lean (make work visible; pull); DRY (one tracker, not many).*
+**Capture before clarity.** Capture every idea, task, or observation *immediately*, however vague — speed of capture beats quality of capture. Don't block a capture on categorization, prioritization, or full understanding; refine it later as context emerges. The cost of a messy capture is near zero; the cost of a lost insight is unrecoverable. The default action for any new thought is to create the tracked item with whatever title exists in the moment.
+
+*Foundation: Lean (make work visible; pull); DRY (one tracker, not many); GTD (capture everything, clarify later).*
 
 ### 3. Verification & Validation — prove it's right *and* right-for-purpose
 
@@ -88,7 +97,11 @@ Two distinct checks, both required:
 
 **Gate taxonomy:** input · source · conformance · hygiene · build/test · fidelity · review · critique · fetch-back · closeout. Classify each gate as mechanical or judgment.
 
-*Foundation: IEEE 1012 V&V; Lean Jidoka (build quality in / stop-the-line).*
+**Human review gates are designed intentionally** — not reflexive, not permanent. Classify each side-effecting gate as **graduating** (start gated; step down toward automation as it earns *evidence of clean, reversible, side-effect-safe runs*) or **always-gated** (keeps a human gate no matter how good it gets — irreversible publication, money/credentials/security posture, destructive ops without clean undo, communications in your name). State the class and why; never silently drop a gate because output "looked good lately."
+
+**Trust graduates on evidence (the autonomy ratchet).** An automated actor *earns* autonomy by demonstrating accuracy over real runs, and can lose it: review-every-run → spot-check → dry-run-only → fully automated, stepping back a level on a failure. Wrong outputs are corrected inline; *systematic* mistakes are filed as defects and fed back so the actor improves. The human's role shifts from executor to architect/overseer — designing the pipelines, reviewing the high-trust gates, and promoting or demoting trust tiers. This is how a small team (or one person) scales through automation without surrendering the always-gated decisions.
+
+*Foundation: IEEE 1012 V&V; Lean Jidoka (build quality in / stop-the-line); progressive-autonomy / trust-tier practice.*
 
 ---
 
@@ -140,29 +153,45 @@ Documentation is a **requirement for any development effort**, not an optional e
 
 *Foundation: Agile (working software needs usable docs); Pragmatic Programmer (keep docs near the code, treat as part of the build).*
 
+### 10. Version-aware state — persisted state carries version metadata
+
+Any durable, persisted state (config files, data files, schemas, specs, this document) carries a **version** so schema evolution and migration are safe. Use semantic versioning; timestamps in ISO 8601. Machine state uses structured metadata (e.g. a `_version` field); human-editable files (preference docs, agent-context files) may use a friendlier `version` in frontmatter and skip mandatory timestamps. Without version metadata, migrations become guesswork and silent corruption creeps in.
+
+*Foundation: schema-evolution / migration practice; semantic versioning.*
+
+### 11. Time-boxed exploration — bound the open-ended, force a decision
+
+Experiments, investigations, and exploratory work get an explicit **time box set before starting** (recorded in the tracked item or notes). At the limit, choose one of three outcomes: **continue** (with a new, justified box), **park** (archive with state + re-entry conditions), or **discard** (close it, delete throwaway artifacts). Viable work graduates to a real project; dead work gets closed, not left open indefinitely. Unbounded exploration becomes a graveyard — time boxes force the decision points that keep the backlog honest and the workspace light.
+
+*Foundation: Lean (timeboxing, limit WIP); Agile spikes; Cynefin (safe-to-fail probes in the complex domain).*
+
 ---
 
 ## Design principles
 
-### 10. Reuse & simplicity — prefer existing tools; simple and elegant wins
+### 12. Reuse & simplicity — prefer existing tools; simple and elegant wins
 
 Reuse wherever possible: before building, check whether an existing tool, library, or pattern already does it. Compose existing pieces before writing new ones. Choose the **smallest solution that fully solves the problem**. Prefer a well-understood existing tool over a marginally-better-fit bespoke one — the maintenance and cognitive cost of one-more-custom-thing usually outweighs the fit gain. Don't over-engineer for an imagined future (YAGNI); add abstraction when duplication proves it's needed, not preemptively. New bespoke code should justify why nothing existing fit.
 
 *Foundation: Unix philosophy (do one thing well, compose small tools); KISS, DRY, YAGNI; "boring technology."*
 
-### 11. Streamlined maintenance — automate the chore; humans avoid upkeep
+**Hierarchy-first / one home per fact.** Information lives at *exactly one level* and is referenced, never duplicated. Put a fact at the broadest level it applies to (global → profile/area → project → component) and reference it from narrower levels rather than copying it down. Duplication is how drift starts: when the same thing lives in two places, one gets updated and the other silently lies. Before adding information, decide the right level; if it applies broadly, it belongs at the broad level, not pasted into each consumer.
+
+*Foundation: DRY / single-source-of-truth; layered configuration (broad defaults, narrow overrides).*
+
+### 13. Streamlined maintenance — automate the chore; humans avoid upkeep
 
 Maintenance must be streamlined, because people don't reliably do recurring manual work — so it decays. Automate recurring chores with simple scripts/scheduled jobs. Prefer the **watchdog pattern**: silent when healthy, loud and actionable only when something needs attention, and fails loud (never silently) so a broken watchdog can't hide. Minimize touch points (zero-touch > one-touch). Keep the automation itself simple enough to read and fix quickly. (Cost/efficiency awareness and observability live here too: run the cheapest sufficient resource, and make state observable so you can manage it.)
 
 *Foundation: Google SRE (eliminate toil; automate it); Lean (just-in-time, kaizen); Pragmatic Programmer (automate everything repeatable).*
 
-### 12. Reliability & resilience — fail safe, degrade gracefully, recover fast
+### 14. Reliability & resilience — fail safe, degrade gracefully, recover fast
 
 Assume things will fail; design so failure is **safe, visible, and recoverable**. Fail *closed* (not open) when a precondition is missing. Make operations **idempotent** by default — re-running must be safe, which is mandatory for anything retried or unattended. Preserve-and-report blocked work; never silently drop it. Retry once on transient/indexing latency before concluding failure. Degrade gracefully when a non-essential dependency is missing. Design for **fast recovery**: keep backups before destructive operations, prefer reversible changes, make the rollback path explicit.
 
 *Foundation: AWS Well-Architected (reliability pillar); DORA (time-to-restore).*
 
-### 13. Fast feedback / small reversible changes — small, safe, frequent beats big, infrequent
+### 15. Fast feedback / small reversible changes — small, safe, frequent beats big, infrequent
 
 Prefer small, safe, reversible changes with fast feedback over large, infrequent, hard-to-reverse ones. Slice work thin — each slice leaves the system valid/shippable. Verify each slice quickly rather than batching all verification to the end. Integrate/push frequently; don't hoard completed work. Keep changes reversible (atomic commits, flags, backups). Prefer incremental over big-bang unless partial application would be genuinely unsafe (an atomic migration, a security fix that must land whole) — and state the reason when you choose big-bang.
 
@@ -174,13 +203,23 @@ Prefer small, safe, reversible changes with fast feedback over large, infrequent
 
 Every deliverable has a reader. These make sure it is aimed and voiced for that reader.
 
-### 14. Audience-tailoring — audience is a mandatory input; brevity wins
+### 16. Audience-tailoring — audience is a mandatory input; brevity wins
 
 The **audience is a mandatory input to every deliverable**. Before writing, identify who will read or use it — their role, altitude, prior context, the decision or action it enables, and the trust boundary — and **tailor the output to them**. The same facts take a different shape per audience: executives want outcomes and decisions; an implementing engineer wants mechanics. Lead with what that audience needs. **Brevity wins:** say it in the fewest words that fully serve the audience; cut preamble, restatement, and filler. If two audiences need different things, write two tailored cuts, not one compromise that serves neither.
 
 *Foundation: technical-communication practice (know your audience; bottom-line-up-front); Strunk & White ("omit needless words").*
 
-### 15. Writing-style — match the author's voice, getting more precise over time
+**Graduated output quality — match polish to audience and purpose.** Not all output deserves the same polish; over-polishing internal work wastes time, under-polishing external work erodes trust. Match the standard to the tier:
+
+| Tier | Audience | Standard |
+|---|---|---|
+| Internal / exploratory | Self, agents | MVP. Rough notes, incomplete thoughts, throwaway experiments. Must *not* be over-polished. |
+| Team-facing | Your team / collaborators | Clear and accurate. Consistent format. Reviewed before sharing. |
+| Stakeholder-facing | Execs, clients, board, public | Polished, precise, on-cadence. Data verified. No ambiguity in recommendations or risk statements. |
+
+When unsure of the tier, default to team-facing. Matching effort to audience is a resource-allocation decision, not a quality compromise.
+
+### 17. Writing-style — match the author's voice, getting more precise over time
 
 Prose written on someone's behalf must read like **they** wrote it, and the match must **improve over time**. Treat voice as a supervised, audience-specific profile: calibrate from real samples of their writing in that register, strip generic-AI tells, apply per draft, and fold reviewed edits back so each cycle is closer — an improvement ratchet, not a one-shot. Brevity applies here too. Anything external or published stays behind a review gate before it goes out.
 
@@ -202,9 +241,9 @@ Two words carry the weight. *Probability:* security is probabilistic, not binary
 
 1. **Zero Trust** — never trust by default; least-privilege, per-resource, continuously-verified access. Shrink the attack surface and blast radius so a compromise can't move freely. (Least-privilege, command-scoped, fail-closed credentials are Zero Trust applied to secrets — see standard #5.)
 2. **Intrusion Kill Chain Prevention** — model the adversary's sequence of steps and break it at multiple stages. Defend against the *campaign*, not a single indicator; map controls to real adversary playbooks, not a generic checklist.
-3. **Resilience** — assume prevention will sometimes fail; design so the organization survives and keeps delivering through an event. This is security's expression of the Reliability & resilience design principle (#12) — fail safe, degrade gracefully, recover fast.
+3. **Resilience** — assume prevention will sometimes fail; design so the organization survives and keeps delivering through an event. This is security's expression of the Reliability & resilience design principle (#14) — fail safe, degrade gracefully, recover fast.
 4. **Risk Forecasting** — estimate the probability of material impact *quantitatively* and update it as evidence arrives (Bayesian reasoning, not red/yellow/green heat maps). You can't manage "reduce probability" if you can't estimate it; forecasts guide where the marginal security dollar goes.
-5. **Automation** — **cuts across all four.** Encode the other strategies as code/infrastructure so they apply consistently, at scale, without manual toil or drift. This is security's expression of Streamlined maintenance (#11) and Fast feedback (#13).
+5. **Automation** — **cuts across all four.** Encode the other strategies as code/infrastructure so they apply consistently, at scale, without manual toil or drift. This is security's expression of Streamlined maintenance (#13) and Fast feedback (#15).
 
 *Foundation: Rick Howard, Cybersecurity First Principles (Wiley, 2023) — itself built on Zero Trust (Kindervag), the intrusion kill chain, resilience engineering, and Bayesian risk reasoning.*
 
@@ -224,14 +263,50 @@ These principles are deliberately built on durable, widely-validated bodies of t
 | Software-as-a-service config | **12-Factor App** | Secrets/config in the environment; disposability |
 | Craft & code | **Unix philosophy**, **The Pragmatic Programmer** (DRY, automate, fix broken windows) | Reuse & simplicity; maintenance |
 | Quality | **IEEE 1012 V&V** | Verification vs. validation; intentional review-gate design |
-| Iterative value | **Agile Manifesto** | Working increments; small frequent delivery; docs as part of working software |
-| Communication | **Technical-communication practice** (know-your-audience, BLUF), **Strunk & White** | Audience-tailoring; writing-style; brevity |
+| Iterative value | **Agile Manifesto** | Working increments; small frequent delivery; docs as part of working software; timeboxed spikes |
+| Personal productivity | **GTD** (Getting Things Done — capture, clarify later) | Capture-before-clarity; one trusted system |
+| Autonomy & oversight | **Progressive-autonomy / trust-tier practice** | Trust graduates on evidence; human as architect/overseer; intentional gates |
+| State evolution | **Semantic versioning**, schema-migration practice | Version-aware state; this spec's own versioning |
+| Communication | **Technical-communication practice** (know-your-audience, BLUF), **Strunk & White** | Audience-tailoring; graduated output quality; writing-style; brevity |
 | Security (domain) | **Cybersecurity First Principles** (Rick Howard) — reduce probability of material impact; Zero Trust, Kill Chain, Resilience, Risk Forecasting, Automation | The security domain section above |
 | Concrete conventions | **Conventional Commits**, **XDG Base Directory Specification** | Commit format; file layout |
 
 ### A note on Cynefin (why several rules are *decision rules*, not fixed procedures)
 
 Cynefin says: match your approach to the domain the problem lives in — **clear** (apply best practice), **complicated** (analyze, then good practice), **complex** (probe with safe-to-fail experiments), **chaotic** (act to stabilize first), **confusion** (figure out which domain first). Several principles above are this idea in disguise: the *spec-vs-prose* rule matches rigor to whether the change is clear or complex; *fast feedback's* "probe with small reversible changes" is the complex-domain move; *reliability's* "stabilize, fail safe" is the chaotic-domain move. That's why they're decision rules — apply the response that fits the situation, don't cargo-cult one recipe everywhere.
+
+---
+
+## How this spec grows — the domain-examination method
+
+New standards are not invented; they are **extracted from domains of expertise and grounded in that domain's established first principles.** This is the repeatable method for examining a domain and deciding what, if anything, becomes a standard. It exists so the spec expands deliberately and stays grounded, instead of accumulating ad-hoc opinions.
+
+1. **Pick a domain** from the backlog (below) — a field with a mature body of thought (e.g. decision-making, knowledge management, learning, negotiation, systems theory).
+2. **Find its established first principles.** Identify the canonical frameworks, thinkers, and primary sources the field already agrees on. Borrow; don't re-derive. If you can't find an established foundation, that's a signal the candidate is folklore, not a principle.
+3. **Extract candidate principles** — the irreducible ideas, stated as the domain states them, with the source named.
+4. **Classify each candidate:**
+   - **General** — applies across most work regardless of field → promote to a core/operational/design/communication standard.
+   - **Domain-specific** — only meaningful inside that field → a *domain principles* section (like security), applied on top of the general standards when working there.
+   - **Already covered** — a restatement or special case of an existing standard → fold in as a sharpening, with a cross-reference, not a new entry.
+   - **Folklore** — maps to no established framework and isn't broadly useful → discard, or hold until evidence accrues.
+5. **Check the hierarchy fit** — place each kept principle at the right level (global standard, domain section, or a downstream implementation's local override). Don't globalize something that's really project- or role-specific (standard #12, hierarchy-first).
+6. **Record lineage** — every kept standard names its *Foundation*. No foundation, no promotion.
+7. **Version and propagate** — bump the spec version, update the CHANGELOG, then propagate to the downstream implementations.
+
+The bar for promotion to a *general* standard is high: broad applicability **and** an established foundation **and** a clear when-to-apply rule. When in doubt, file it as a domain principle or a sharpening rather than inflating the core.
+
+### Domain backlog
+
+Candidate domains to mine, roughly in priority order. This is tracked, not exhaustive — add as new domains surface. Examined domains move into the standards or a domain section with their lineage recorded.
+
+- **Decision-making under uncertainty** — expected value, base rates, Bayesian updating, reversible-vs-irreversible (one-way/two-way doors), opportunity cost, premortems.
+- **Knowledge management** — single source of truth, progressive summarization, evergreen notes, spaced retrieval, capture→organize→distill→express.
+- **Learning & expertise** — deliberate practice, feedback loops, spacing/interleaving, the expertise-reversal effect.
+- **Systems & cybernetics** — feedback, stocks/flows, leverage points, requisite variety, second-order effects (extends the top-level system-optimization principle).
+- **Negotiation & influence** — interests over positions, BATNA, good-faith framing, principled negotiation.
+- **Personal effectiveness / time** — energy management, deep work, essentialism, leverage and delegation.
+- **Risk & safety engineering** — defense in depth, blast-radius limitation, safety margins, normal-accident theory (composes with reliability & security).
+- **Ethics & integrity** — honesty by default, consent, reversibility, harm minimization (a floor under all the others).
 
 ---
 

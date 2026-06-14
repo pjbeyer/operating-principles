@@ -2,6 +2,24 @@
 
 All notable changes to the Operating Principles spec are recorded here. The spec follows semantic versioning (MAJOR = breaking change to a standard's meaning or a removal; MINOR = new/expanded standard, backward-compatible; PATCH = wording/clarification with no change in obligation).
 
+## 1.1.0 — 2026-06-14
+
+Reconciled principles from parallel codification attempts (a security-workspace constitution, a plugin-system constitution, and a machine-readable preference doc) and added the domain-examination method. All backward-compatible.
+
+### Added
+- **Standard #10 Version-aware state** — persisted state carries version metadata; semver + ISO 8601.
+- **Standard #11 Time-boxed exploration** — explicit time box before exploratory work; continue/park/discard at the limit.
+- **Hard vs. soft rules** in the conformance model — hard rules are never violable (the safety/honesty floor); soft rules are strong defaults that may yield with a stated reason.
+- **How this spec grows** — a repeatable domain-examination method (pick domain → find established first principles → extract → classify general/domain/covered/folklore → hierarchy-fit → record lineage → version & propagate) plus a tracked domain backlog.
+
+### Expanded
+- **#2 Issue management** — added *capture before clarity* (speed of capture > quality; refine later). Foundation: GTD.
+- **#3 Verification & Validation** — added intentional review-gate design (graduating vs always-gated) and the *trust-graduates-on-evidence* autonomy ratchet (human as architect/overseer).
+- **#12 Reuse & simplicity** — added *hierarchy-first / one home per fact* (info at exactly one level, referenced not duplicated).
+- **#16 Audience-tailoring** — added the *graduated output quality* tier table (internal / team-facing / stakeholder-facing).
+- Renumbered design/communication standards (old 10–15 → 12–17) to seat the two new operational standards.
+- Foundations table: added GTD, progressive-autonomy/trust-tier practice, semantic-versioning/schema-migration.
+
 ## 1.0.0 — 2026-06-14
 
 First versioned release as a standalone, substrate-independent specification and source of record.
