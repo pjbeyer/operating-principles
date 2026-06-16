@@ -1,5 +1,15 @@
 # Agent Instructions
 
+This repository is the canonical source of record for Phil's Operating Principles. The spec is pre-1.0, substrate-independent, and review-driven.
+
+## Repository rules
+
+- Use **pull requests** for spec/process/release changes. Do not push directly to `main` except for explicitly approved emergency maintenance.
+- Use **bd** (Beads) for durable backlog and domain-mining work. Do not keep open backlog lists in committed markdown files.
+- Use **Release Please** for managed release PRs/tags/changelog going forward.
+- Attribute throughout: keep brief *Foundation* callouts near principles and complete citation entries as endnotes.
+- Keep public files portable: no private paths, workplace-private details, secrets, or implementation-internal IDs in shared-facing prose.
+
 This project uses **bd** (beads) for issue tracking. Run `bd prime` for full workflow context.
 
 > **Architecture in one line:** Issues live in a local Dolt database

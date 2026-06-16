@@ -1,6 +1,6 @@
 # Phil's Operating Principles — a personal specification
 
-**Spec version: 1.1.0** · Status: active · Canonical source of record (see *Status & canonical home* below)
+**Spec version: 0.3.0** · Status: pre-1.0 active draft · Canonical source of record (see *Status & canonical home* below)
 
 This document is a **specification for how Phil's entire system of work should operate.** It is not documentation *about* a tool — it is the source specification that tools, devices, services, apps, agents, and even employment positions are expected to **conform to**. When Phil configures an AI agent, sets up a workstation, adopts a service, or evaluates a job, the question is: *does it operate the way this spec describes?*
 
@@ -8,7 +8,7 @@ It is deliberately **substrate-independent**. It is not tied to any coding agent
 
 **This is the harness for everything else — including coding-agent harnesses.** A coding-agent harness (Hermes, Claude Code, an IDE assistant, a CI bot) is not a peer to this spec; it sits *inside* it. The spec is the outermost layer that wraps and governs every harness, tool, and workflow beneath it. So when a harness defines its own rules, those rules are expected to implement this spec — this spec does not implement them. If you think of your tools as harnesses that hold your work, this is the harness that holds the harnesses.
 
-A compact, durable set of principles and standards for how work gets done — spanning engineering, security, communication, and operations. Each is **derived from a well-established framework** (named in *Foundations*), not invented; the value is the synthesis into one coherent, opinionated set with a clear rule for *when* each applies.
+A compact, durable **pre-1.0** set of principles and standards for how work gets done — spanning engineering, security, communication, and operations. Each is **derived from a well-established framework** (named in *Foundations*), not invented; the value is the synthesis into one coherent, opinionated set with a clear rule for *when* each applies.
 
 > **Scope of conformance:** this spec governs *every* tool, device, service, app, agent, or employment position Phil relies on. A system that contradicts it is misaligned and should be reconfigured, replaced, or — for a role — questioned. Conformance is the default expectation, not a nice-to-have.
 
@@ -18,7 +18,7 @@ A compact, durable set of principles and standards for how work gets done — sp
 
 ## What it means to conform
 
-A tool, device, service, app, agent, or role **conforms to this spec (version 1.x)** when:
+A tool, device, service, app, agent, or role **conforms to this pre-1.0 spec** when:
 
 - It **upholds the standards by default**, not only when asked — substantial work follows them without per-task opt-in.
 - Where it can't enforce a standard mechanically, it **doesn't silently violate it** — it surfaces the gap (fails loud) rather than quietly skipping.
@@ -36,11 +36,13 @@ Conformance is graded, not binary: a system may fully implement some standards, 
 
 When an implementation can mark its rules, it should label each hard or soft (as in a machine-readable preference file), so the non-negotiable core is unambiguous. Hard rules are the load-bearing safety/honesty floor; soft rules are the craft.
 
+**Principles as decision algorithms.** A principle should be usable before the decision is made, not only as a slogan afterward. It states how to choose when the situation recurs, exposes the tradeoff it governs, and can be debated, revised, and versioned as evidence accumulates. Good principles turn repeated judgment into a reusable decision system while preserving room for context and integrity. Painful misses are especially valuable inputs: pain plus reflection becomes progress when the lesson is captured, attributed, and folded back into the system rather than merely endured.[^dalio-principles][^dalio-pain]
+
 ---
 
 ## How the principles are organized
 
-- **Top-level principle** — frames how everything else is applied.
+- **Top-level principles** — define the objective function and non-negotiable floor.
 - **Core standards** — how substantial work is contracted, tracked, and proven.
 - **Operational standards** — how work is executed and handled day-to-day.
 - **Design principles** — how things are built and kept maintainable.
@@ -52,15 +54,34 @@ A standard fails *loud* (stop and surface it) rather than silently skipping. Whe
 ---
 
 
-## Top-level principle
+## Top-level principles
 
-### 0. System optimization — improve the whole, not one piece
+### 0a. System optimization — improve the whole, not one piece
 
-Always optimize the **whole system**, not a local part. A change that improves the component in front of you while degrading the system overall is a regression. Check second-order effects; prefer shared leverage (a fix to a common layer) over one-off patches; work the binding constraint, not the convenient piece; improve coherence and discoverability, not just function.
+Always optimize the **whole system**, not a local part. A change that improves the component in front of you while degrading the system overall is a regression. Check second-order effects — including lagged consequences, feedback delays, oscillation, and overshoot. Prefer shared leverage (a fix to a common layer) over one-off patches; work the binding constraint, not the convenient piece; improve coherence and discoverability, not just function.
+
+Use **ranked intervention** when changing a system: goals, structures, rules, and feedback loops usually matter more than parameter tweaks. Remember **requisite variety**: a controller must have enough range to absorb the variety of the system it regulates, so complex systems need responses with enough flexibility, observability, and escalation paths. And use **purpose from behavior** as a truth test: a system's real purpose is what it actually does, not what its documentation says it intends.
+
+Treat the **system that produces the work** as part of the work. The environment, specification, checks, templates, review agents, captured learnings, and release process that produce an output often matter more than any single output. Spend meaningful effort improving that machine; every cycle should leave the system better for the next.
 
 This is the *objective function* the other standards serve. Simplify and automate **where it most improves the whole**.
 
-*Foundation: Systems Thinking (Deming, Meadows); Theory of Constraints (Goldratt).*
+*Foundation: Systems Thinking (Deming, Meadows); Theory of Constraints (Goldratt); cybernetics (Ashby); compound engineering / harness engineering.*[^meadows][^ashby]
+
+### 0b. Integrity — the non-negotiable floor
+
+Optimize the system only inside an **integrity floor**. System optimization is the objective function; integrity is the constraint. It is not another preference to trade off against speed, elegance, or output volume. A locally efficient action that violates the floor is not a better optimization — it is outside the allowed solution space.
+
+The floor is:
+
+- **Honesty by default** — don't fabricate, exaggerate, hide uncertainty, or imply evidence you do not have.
+- **Non-maleficence** — avoid foreseeable harm; fail closed where harm or trust-boundary violations are plausible.
+- **Transparency about uncertainty and limits** — say what is known, what is inferred, what is unverified, and what could change the conclusion.
+- **Accountability** — make consequential actions attributable, reviewable, and correctable; own mistakes and feed them back into the system.
+
+Many hard rules in this spec are integrity operating in specific domains: execute-don't-assert, no plaintext secrets, output hygiene, and always-gated decisions around money/security/destructive ops/communications in Phil's name.
+
+*Foundation: Beauchamp & Childress; Belmont Report; ACM/IEEE professional ethics codes; common-morality honesty norms.*[^beauchamp-childress][^belmont][^acm-code][^ieee-code]
 
 ---
 
@@ -149,9 +170,11 @@ Nothing shared with stakeholders or external audiences may leak internal/local i
 
 ### 9. Documentation — required, and refreshed with the code
 
-Documentation is a **requirement for any development effort**, not an optional extra. A change with user-facing behavior, an interface, a setup/operation step, or a non-obvious decision is not complete until the documentation that explains it exists. And a **documentation refresh is part of maintenance**: when code changes, its docs are reviewed in the same pass and updated if stale — a change that leaves its docs describing old behavior is a defect, not a separate follow-up. Right-size the doc to the effort (design record, README, runbook, changelog, or agent-context file), keep one source of truth, and write it for its reader.
+Documentation is a **requirement for any development effort**, not an optional extra. A change with user-facing behavior, an interface, a setup/operation step, or a non-obvious decision is not complete until the documentation that explains it exists. And a **documentation refresh is part of maintenance**: when code changes, its docs are reviewed in the same pass and updated if stale — a change that leaves its docs describing old behavior is a defect, not a separate follow-up.
 
-*Foundation: Agile (working software needs usable docs); Pragmatic Programmer (keep docs near the code, treat as part of the build).*
+Use **write-to-think** for important work: externalizing reasoning into a spec, decision record, memo, or commit message is part of the thinking, not merely a report after thinking is done. Writing exposes gaps, contradictions, and missing evidence. Right-size the doc to the effort (design record, README, runbook, changelog, or agent-context file), keep one source of truth, and write it for its reader.
+
+*Foundation: Agile (working software needs usable docs); Pragmatic Programmer (keep docs near the code, treat as part of the build); knowledge-work note-making practice.*
 
 ### 10. Version-aware state — persisted state carries version metadata
 
@@ -165,33 +188,54 @@ Experiments, investigations, and exploratory work get an explicit **time box set
 
 *Foundation: Lean (timeboxing, limit WIP); Agile spikes; Cynefin (safe-to-fail probes in the complex domain).*
 
+### 12. Probabilistic judgment & calibration — beliefs should carry odds
+
+For uncertain judgments, reason in probabilities and expected value instead of binary confidence. Anchor on base rates and reference classes before privileging the vivid case in front of you. State confidence in a way that can later be checked against reality, and judge decisions by the quality of the process given what was known at the time — not only by the outcome. When the stakes justify it, use premortems, prediction logs, and calibration review so belief quality improves over time.
+
+This is Verification & Validation applied to beliefs: don't merely assert confidence; make it auditable.
+
+*Foundation: decision theory; Tversky & Kahneman on heuristics and biases; Tetlock on forecasting; Annie Duke on resulting and decision quality.*[^tversky-kahneman][^kahneman][^tetlock][^duke]
+
+### 13. Execution right-sizing — match mechanism, model, and effort to task structure
+
+Use the smallest sufficient execution style:
+
+- **Routine / well-understood work** → deterministic workflows: checklists, templates, scripts, prompt chains, and explicit gates.
+- **Open-ended / brittle-to-script work** → agentic or exploratory automation, with bounded autonomy and review gates.
+- **Simple / low-stakes work** → cheap, fast, low-effort resources.
+- **Complex / high-stakes work** → stronger models, higher effort, independent critique, and stricter validation.
+
+Do not use an expensive or open-ended agent when a checklist would be clearer; do not force a rigid checklist onto a genuinely complex task that needs sensing, adaptation, or judgment. Direction should be **outcome-first**: specify the desired result, example, format, destination, boundaries, and review gate; let the executor choose the implementation path inside those constraints.
+
+*Foundation: Anthropic's workflow-vs-agent distinction; Cynefin; delegation practice; cost/quality allocation.*[^anthropic-agents]
+
 ---
 
 ## Design principles
 
-### 12. Reuse & simplicity — prefer existing tools; simple and elegant wins
+### 14. Reuse & simplicity — prefer existing tools; simple and elegant wins
 
 Reuse wherever possible: before building, check whether an existing tool, library, or pattern already does it. Compose existing pieces before writing new ones. Choose the **smallest solution that fully solves the problem**. Prefer a well-understood existing tool over a marginally-better-fit bespoke one — the maintenance and cognitive cost of one-more-custom-thing usually outweighs the fit gain. Don't over-engineer for an imagined future (YAGNI); add abstraction when duplication proves it's needed, not preemptively. New bespoke code should justify why nothing existing fit.
 
 *Foundation: Unix philosophy (do one thing well, compose small tools); KISS, DRY, YAGNI; "boring technology."*
 
-**Hierarchy-first / one home per fact.** Information lives at *exactly one level* and is referenced, never duplicated. Put a fact at the broadest level it applies to (global → profile/area → project → component) and reference it from narrower levels rather than copying it down. Duplication is how drift starts: when the same thing lives in two places, one gets updated and the other silently lies. Before adding information, decide the right level; if it applies broadly, it belongs at the broad level, not pasted into each consumer.
+**Hierarchy-first / one home per fact.** Information lives at *exactly one level* and is referenced, never duplicated. When a narrower, more-specific rule genuinely conflicts with a broader default, the narrower applicable rule wins — but it should reference the broader rule rather than copy it. Put a fact at the broadest level it applies to (global → profile/area → project → component) and reference it from narrower levels rather than copying it down. Duplication is how drift starts: when the same thing lives in two places, one gets updated and the other silently lies. Before adding information, decide the right level; if it applies broadly, it belongs at the broad level, not pasted into each consumer.
 
 *Foundation: DRY / single-source-of-truth; layered configuration (broad defaults, narrow overrides).*
 
-### 13. Streamlined maintenance — automate the chore; humans avoid upkeep
+### 15. Streamlined maintenance — automate the chore; humans avoid upkeep
 
-Maintenance must be streamlined, because people don't reliably do recurring manual work — so it decays. Automate recurring chores with simple scripts/scheduled jobs. Prefer the **watchdog pattern**: silent when healthy, loud and actionable only when something needs attention, and fails loud (never silently) so a broken watchdog can't hide. Minimize touch points (zero-touch > one-touch). Keep the automation itself simple enough to read and fix quickly. (Cost/efficiency awareness and observability live here too: run the cheapest sufficient resource, and make state observable so you can manage it.)
+Maintenance must be streamlined, because people don't reliably do recurring manual work — so it decays. Use a lightweight PDCA loop: log wins, misses, and surprises; convert repeated fixes into standards; periodically prune, merge, or retire rules that no longer pull their weight. Automate recurring chores with simple scripts/scheduled jobs. Prefer the **watchdog pattern**: silent when healthy, loud and actionable only when something needs attention, and fails loud (never silently) so a broken watchdog can't hide. Minimize touch points (zero-touch > one-touch). Keep the automation itself simple enough to read and fix quickly. (Cost/efficiency awareness and observability live here too: run the cheapest sufficient resource, and make state observable so you can manage it.)
 
 *Foundation: Google SRE (eliminate toil; automate it); Lean (just-in-time, kaizen); Pragmatic Programmer (automate everything repeatable).*
 
-### 14. Reliability & resilience — fail safe, degrade gracefully, recover fast
+### 16. Reliability & resilience — fail safe, degrade gracefully, recover fast
 
 Assume things will fail; design so failure is **safe, visible, and recoverable**. Fail *closed* (not open) when a precondition is missing. Make operations **idempotent** by default — re-running must be safe, which is mandatory for anything retried or unattended. Preserve-and-report blocked work; never silently drop it. Retry once on transient/indexing latency before concluding failure. Degrade gracefully when a non-essential dependency is missing. Design for **fast recovery**: keep backups before destructive operations, prefer reversible changes, make the rollback path explicit.
 
 *Foundation: AWS Well-Architected (reliability pillar); DORA (time-to-restore).*
 
-### 15. Fast feedback / small reversible changes — small, safe, frequent beats big, infrequent
+### 17. Fast feedback / small reversible changes — small, safe, frequent beats big, infrequent
 
 Prefer small, safe, reversible changes with fast feedback over large, infrequent, hard-to-reverse ones. Slice work thin — each slice leaves the system valid/shippable. Verify each slice quickly rather than batching all verification to the end. Integrate/push frequently; don't hoard completed work. Keep changes reversible (atomic commits, flags, backups). Prefer incremental over big-bang unless partial application would be genuinely unsafe (an atomic migration, a security fix that must land whole) — and state the reason when you choose big-bang.
 
@@ -203,7 +247,7 @@ Prefer small, safe, reversible changes with fast feedback over large, infrequent
 
 Every deliverable has a reader. These make sure it is aimed and voiced for that reader.
 
-### 16. Audience-tailoring — audience is a mandatory input; brevity wins
+### 18. Audience-tailoring — audience is a mandatory input; brevity wins
 
 The **audience is a mandatory input to every deliverable**. Before writing, identify who will read or use it — their role, altitude, prior context, the decision or action it enables, and the trust boundary — and **tailor the output to them**. The same facts take a different shape per audience: executives want outcomes and decisions; an implementing engineer wants mechanics. Lead with what that audience needs. **Brevity wins:** say it in the fewest words that fully serve the audience; cut preamble, restatement, and filler. If two audiences need different things, write two tailored cuts, not one compromise that serves neither.
 
@@ -219,7 +263,7 @@ The **audience is a mandatory input to every deliverable**. Before writing, iden
 
 When unsure of the tier, default to team-facing. Matching effort to audience is a resource-allocation decision, not a quality compromise.
 
-### 17. Writing-style — match the author's voice, getting more precise over time
+### 19. Writing-style — match the author's voice, getting more precise over time
 
 Prose written on someone's behalf must read like **they** wrote it, and the match must **improve over time**. Treat voice as a supervised, audience-specific profile: calibrate from real samples of their writing in that register, strip generic-AI tells, apply per draft, and fold reviewed edits back so each cycle is closer — an improvement ratchet, not a one-shot. Brevity applies here too. Anything external or published stays behind a review gate before it goes out.
 
@@ -241,11 +285,49 @@ Two words carry the weight. *Probability:* security is probabilistic, not binary
 
 1. **Zero Trust** — never trust by default; least-privilege, per-resource, continuously-verified access. Shrink the attack surface and blast radius so a compromise can't move freely. (Least-privilege, command-scoped, fail-closed credentials are Zero Trust applied to secrets — see standard #5.)
 2. **Intrusion Kill Chain Prevention** — model the adversary's sequence of steps and break it at multiple stages. Defend against the *campaign*, not a single indicator; map controls to real adversary playbooks, not a generic checklist.
-3. **Resilience** — assume prevention will sometimes fail; design so the organization survives and keeps delivering through an event. This is security's expression of the Reliability & resilience design principle (#14) — fail safe, degrade gracefully, recover fast.
+3. **Resilience** — assume prevention will sometimes fail; design so the organization survives and keeps delivering through an event. This is security's expression of the Reliability & resilience design principle (#16) — fail safe, degrade gracefully, recover fast.
 4. **Risk Forecasting** — estimate the probability of material impact *quantitatively* and update it as evidence arrives (Bayesian reasoning, not red/yellow/green heat maps). You can't manage "reduce probability" if you can't estimate it; forecasts guide where the marginal security dollar goes.
-5. **Automation** — **cuts across all four.** Encode the other strategies as code/infrastructure so they apply consistently, at scale, without manual toil or drift. This is security's expression of Streamlined maintenance (#13) and Fast feedback (#15).
+5. **Automation** — **cuts across all four.** Encode the other strategies as code/infrastructure so they apply consistently, at scale, without manual toil or drift. This is security's expression of Streamlined maintenance (#15) and Fast feedback (#17).
 
 *Foundation: Rick Howard, Cybersecurity First Principles (Wiley, 2023) — itself built on Zero Trust (Kindervag), the intrusion kill chain, resilience engineering, and Bayesian risk reasoning.*
+
+---
+
+## Domain principles: knowledge & learning
+
+When the work is learning, expertise-building, or knowledge-base design, apply these on top of the general standards.
+
+- **Atomic, durable notes.** Capture ideas in small units that can be linked, revised, and reused; progressive summarization and evergreen notes are tools for making knowledge compound.
+- **Retrieval beats rereading.** Spacing, interleaving, and retrieval practice are usually stronger learning mechanisms than passive review.
+- **Practice deliberately.** Expertise improves through focused practice, immediate feedback, and work at the edge of ability.
+- **Hierarchy and links are complements.** Keep one canonical home per fact, then link to it liberally; linking-over-foldering must not become duplication-over-truth.
+
+*Foundation: Forte's CODE/progressive-summarization practice; Ahrens and Luhmann-inspired note-making; Bjork desirable difficulties; Ericsson deliberate practice; Roediger/McDaniel learning science.*[^forte][^ahrens][^bjork][^ericsson]
+
+---
+
+## Domain principles: AI agent operations
+
+When building or operating AI agents/automations, apply these on top of the general standards.
+
+- **Harness as product.** Treat agent context, specs, checks, prompts, templates, and review loops as the product surface that produces future work. Keep context files as short indexes, not manuals; move detail into structured, versioned references.
+- **Context-loading discipline.** Prefer lazy/on-demand references over eager-loading everything. Use explicit links for context an agent must load; batch independent reads.
+- **Trigger and recurrence design.** Automations should have high-signal triggers, bounded scopes, clear quiet/success behavior, and explicit escalation paths.
+- **Mutation safety pre-flight.** View before editing; avoid destructive whole-content replaces; anchor targeted edits to stable surrounding text; ask when the target or trust boundary is unclear.
+
+*Foundation: Anthropic workflows/agents guidance; OpenAI harness-engineering practice; spec-driven development; Phil's Notion AI Tools operating model.*[^anthropic-agents]
+
+---
+
+## Domain principles: human agency & ethics
+
+Integrity is always-on; these situational practices apply when work acts on, represents, or materially affects people.
+
+- **Informed consent.** Act on a person's behalf only with their understanding and agreement, especially when publishing, messaging, spending, changing access, or making commitments in their name.
+- **Conflicts of interest.** Disclose and manage divided loyalties, incentives, or constraints that could distort judgment.
+- **Transparency and accountability.** For consequential decisions, keep enough record that the decision can be reviewed, corrected, or appealed.
+
+*Foundation: Belmont Report; Beauchamp & Childress; ACM/IEEE professional ethics codes.*[^belmont][^beauchamp-childress][^acm-code][^ieee-code]
 
 ---
 
@@ -265,7 +347,9 @@ These principles are deliberately built on durable, widely-validated bodies of t
 | Quality | **IEEE 1012 V&V** | Verification vs. validation; intentional review-gate design |
 | Iterative value | **Agile Manifesto** | Working increments; small frequent delivery; docs as part of working software; timeboxed spikes |
 | Personal productivity | **GTD** (Getting Things Done — capture, clarify later) | Capture-before-clarity; one trusted system |
-| Autonomy & oversight | **Progressive-autonomy / trust-tier practice** | Trust graduates on evidence; human as architect/overseer; intentional gates |
+| Autonomy & oversight | **Progressive-autonomy / trust-tier practice**; **workflow-vs-agent guidance**; harness engineering | Trust graduates on evidence; human as architect/overseer; intentional gates; execution right-sizing |
+| Judgment & behavior | **Tversky/Kahneman heuristics and biases**, **forecasting/calibration**, **behavioral economics / choice architecture** | Probabilistic judgment; debiasing backlog; calibration; decision hygiene |
+| Personal operating systems | **Ray Dalio, Principles** | Explicit principles as decision algorithms; pain + reflection; believability-weighted input; mistake learning |
 | State evolution | **Semantic versioning**, schema-migration practice | Version-aware state; this spec's own versioning |
 | Communication | **Technical-communication practice** (know-your-audience, BLUF), **Strunk & White** | Audience-tailoring; graduated output quality; writing-style; brevity |
 | Security (domain) | **Cybersecurity First Principles** (Rick Howard) — reduce probability of material impact; Zero Trust, Kill Chain, Resilience, Risk Forecasting, Automation | The security domain section above |
@@ -281,7 +365,7 @@ Cynefin says: match your approach to the domain the problem lives in — **clear
 
 New standards are not invented; they are **extracted from domains of expertise and grounded in that domain's established first principles.** This is the repeatable method for examining a domain and deciding what, if anything, becomes a standard. It exists so the spec expands deliberately and stays grounded, instead of accumulating ad-hoc opinions.
 
-1. **Pick a domain** from the backlog (below) — a field with a mature body of thought (e.g. decision-making, knowledge management, learning, negotiation, systems theory).
+1. **Pick a domain** from the repo-local Beads backlog — a field with a mature body of thought (e.g. decision-making, knowledge management, learning, negotiation, systems theory).
 2. **Find its established first principles.** Identify the canonical frameworks, thinkers, and primary sources the field already agrees on. Borrow; don't re-derive. If you can't find an established foundation, that's a signal the candidate is folklore, not a principle.
 3. **Extract candidate principles** — the irreducible ideas, stated as the domain states them, with the source named.
 4. **Classify each candidate:**
@@ -289,7 +373,7 @@ New standards are not invented; they are **extracted from domains of expertise a
    - **Domain-specific** — only meaningful inside that field → a *domain principles* section (like security), applied on top of the general standards when working there.
    - **Already covered** — a restatement or special case of an existing standard → fold in as a sharpening, with a cross-reference, not a new entry.
    - **Folklore** — maps to no established framework and isn't broadly useful → discard, or hold until evidence accrues.
-5. **Check the hierarchy fit** — place each kept principle at the right level (global standard, domain section, or a downstream implementation's local override). Don't globalize something that's really project- or role-specific (standard #12, hierarchy-first).
+5. **Check the hierarchy fit** — place each kept principle at the right level (global standard, domain section, or a downstream implementation's local override). Don't globalize something that's really project- or role-specific (standard #14, hierarchy-first).
 6. **Record lineage** — every kept standard names its *Foundation*. No foundation, no promotion.
 7. **Version and propagate** — bump the spec version, update the CHANGELOG, then propagate to the downstream implementations.
 
@@ -297,16 +381,7 @@ The bar for promotion to a *general* standard is high: broad applicability **and
 
 ### Domain backlog
 
-Candidate domains to mine, roughly in priority order. This is tracked, not exhaustive — add as new domains surface. Examined domains move into the standards or a domain section with their lineage recorded.
-
-- **Decision-making under uncertainty** — expected value, base rates, Bayesian updating, reversible-vs-irreversible (one-way/two-way doors), opportunity cost, premortems.
-- **Knowledge management** — single source of truth, progressive summarization, evergreen notes, spaced retrieval, capture→organize→distill→express.
-- **Learning & expertise** — deliberate practice, feedback loops, spacing/interleaving, the expertise-reversal effect.
-- **Systems & cybernetics** — feedback, stocks/flows, leverage points, requisite variety, second-order effects (extends the top-level system-optimization principle).
-- **Negotiation & influence** — interests over positions, BATNA, good-faith framing, principled negotiation.
-- **Personal effectiveness / time** — energy management, deep work, essentialism, leverage and delegation.
-- **Risk & safety engineering** — defense in depth, blast-radius limitation, safety margins, normal-accident theory (composes with reliability & security).
-- **Ethics & integrity** — honesty by default, consent, reversibility, harm minimization (a floor under all the others).
+The domain backlog is tracked in this repository's Beads instance, not in committed markdown lists. Use `bd ready`, `bd list`, and parent/child Beads relationships to inspect active candidates. Keeping the backlog in Beads preserves dependencies, status, comments, and sync history without turning this spec into a task list. Examined domains move into standards or domain sections with lineage recorded here and complete citations in endnotes.
 
 ---
 
@@ -323,8 +398,31 @@ Candidate domains to mine, roughly in priority order. This is tracked, not exhau
 
 This document is the **canonical source of record** for Phil's operating principles — the specification itself, not a copy of one. It is substrate-independent by design: it does not belong to any agent, repository, service, or machine.
 
-- **Versioning:** semantic. **MAJOR** = a breaking change to a standard's meaning or a removal (implementations must re-check conformance). **MINOR** = a new standard or a materially expanded one (backward-compatible). **PATCH** = wording/clarification with no change in obligation. The current version is stated at the top; changes are recorded in the accompanying CHANGELOG.
+- **Versioning:** semantic, but **pre-1.0** until the first stable public release. While `0.x`, **MINOR** versions may still reshape obligations and implementations must re-check conformance; **PATCH** versions are clarifications/fixes. The project uses Release Please to manage release PRs, changelog entries, and tags.
 - **Implementations are downstream.** Any place this content also lives — a coding agent's skills, a workstation's dotfiles, a project's `AGENTS.md`, a service's configuration — is an *implementation* that conforms to this spec. When the spec and an implementation disagree, the spec wins and the implementation is updated to match.
-- **Conformance is declarable.** An implementation should be able to say "implements Operating Principles vX.Y," so drift is visible and fixable.
+- **Conformance is declarable.** An implementation should be able to say "implements Operating Principles v0.x" (or later v1.x), so drift is visible and fixable.
+
+---
+
+## Endnotes
+
+[^dalio-principles]: Ray Dalio, *Principles: Life and Work* (Simon & Schuster, 2017); official Principles site, https://www.principles.com/; Simon & Schuster publisher page, https://www.simonandschuster.com/books/Principles/Ray-Dalio/9781501124020.
+[^dalio-pain]: Ray Dalio, "Pain + Reflection = Progress," official Principles entry, https://www.principles.com/principles/5f4aaa06-72de-413a-981d-62b0cc13ca21/.
+[^tversky-kahneman]: Amos Tversky and Daniel Kahneman, "Judgment under Uncertainty: Heuristics and Biases," *Science* 185, no. 4157 (1974): 1124–1131, doi:10.1126/science.185.4157.1124, https://pubmed.ncbi.nlm.nih.gov/17835457/.
+[^kahneman]: Daniel Kahneman, *Thinking, Fast and Slow* (Farrar, Straus and Giroux, 2011).
+[^tetlock]: Philip E. Tetlock and Dan Gardner, *Superforecasting: The Art and Science of Prediction* (Crown, 2015).
+[^duke]: Annie Duke, *Thinking in Bets: Making Smarter Decisions When You Don't Have All the Facts* (Portfolio, 2018).
+[^meadows]: Donella H. Meadows, "Leverage Points: Places to Intervene in a System" (Sustainability Institute, 1999); Donella H. Meadows, *Thinking in Systems* (Chelsea Green, 2008).
+[^ashby]: W. Ross Ashby, *An Introduction to Cybernetics* (Chapman & Hall, 1956).
+[^anthropic-agents]: Anthropic, "Building Effective Agents" (2024), https://www.anthropic.com/research/building-effective-agents.
+
+[^belmont]: National Commission for the Protection of Human Subjects of Biomedical and Behavioral Research, *The Belmont Report* (1979), https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/.
+[^beauchamp-childress]: Tom L. Beauchamp and James F. Childress, *Principles of Biomedical Ethics*, 8th ed. (Oxford University Press, 2019).
+[^acm-code]: Association for Computing Machinery, *ACM Code of Ethics and Professional Conduct* (2018), https://www.acm.org/code-of-ethics.
+[^ieee-code]: IEEE, *IEEE Code of Ethics*, https://www.ieee.org/about/corporate/governance/p7-8.html.
+[^forte]: Tiago Forte, *Building a Second Brain* (Atria Books, 2022).
+[^ahrens]: Sönke Ahrens, *How to Take Smart Notes* (Sönke Ahrens, 2017).
+[^bjork]: Robert A. Bjork and Elizabeth L. Bjork, "Making Things Hard on Yourself, But in a Good Way: Creating Desirable Difficulties to Enhance Learning," in *Psychology and the Real World*, 2nd ed. (Worth, 2014).
+[^ericsson]: K. Anders Ericsson and Robert Pool, *Peak: Secrets from the New Science of Expertise* (Eamon Dolan/Houghton Mifflin Harcourt, 2016).
 
 *This document is intentionally free of any specific tool's internal mechanics so it stays portable, citable, and durable across whatever tools, devices, services, agents, and roles come and go.*
