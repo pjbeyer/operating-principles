@@ -4,6 +4,19 @@ All notable changes to the Operating Principles spec are recorded here. The proj
 
 This repo uses **Release Please** for managed release PRs, changelog maintenance, and tags going forward.
 
+## 0.4.0 — 2026-06-18
+
+Integrated data quality & integrity, mined from the data management domain (Beads `op-q95.9`). Backward-compatible additions.
+
+### Added
+- **Standard #14 Data quality & integrity** (operational tier) — trust data to the extent it's validated, consistent, and traceable. Covers the quality dimensions (accuracy, completeness, consistency, timeliness, validity, uniqueness, referential integrity), validate-at-boundaries (Zero Trust for data), integrity constraints (entity/referential/domain, ACID), provenance & lineage, and fitness-for-use / GIGO. Explicitly distinguished from the ethical Integrity floor (0b) and bridged via the V&V core rule (#3).
+- **Domain principles: data engineering & management** — data contracts, testing data/transformations, lineage as infrastructure, idempotent/reproducible processing, raw-vs-derived separation, use-scaled quality SLAs.
+- **Endnotes** — DAMA-DMBOK, ISO/IEC 25012 & ISO 8000, Codd's relational model, ACID.
+
+### Changed
+- Renumbered design/communication standards (old 14–19 → 15–20) to seat the new operational standard #14; updated all internal cross-references.
+- Foundations table: added the data quality & integrity row.
+
 ## 0.3.0 — 2026-06-16
 
 Incorporated the approved domain-principles proposal and moved backlog tracking into the repo-local Beads instance.
