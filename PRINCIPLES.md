@@ -1,6 +1,6 @@
 # Phil's Operating Principles — a personal specification
 
-**Spec version: 0.6.0** · Status: pre-1.0 active draft · Canonical source of record (see *Status & canonical home* below)
+**Spec version: 0.7.0** · Status: pre-1.0 active draft · Canonical source of record (see *Status & canonical home* below)
 
 This document is a **specification for how Phil's entire system of work should operate.** It is not documentation *about* a tool — it is the source specification that tools, devices, services, apps, agents, and even employment positions are expected to **conform to**. When Phil configures an AI agent, sets up a workstation, adopts a service, or evaluates a job, the question is: *does it operate the way this spec describes?*
 
@@ -176,19 +176,27 @@ Use **write-to-think** for important work: externalizing reasoning into a spec, 
 
 *Foundation: Agile (working software needs usable docs); Pragmatic Programmer (keep docs near the code, treat as part of the build); knowledge-work note-making practice.*
 
-### 10. Version-aware state — persisted state carries version metadata
+### 10. Templates for recurring content — reuse the shape, not just the tools
+
+Recurring deliverables use a canonical, versioned template for their format, section layout, required fields, and stable boilerplate. If a format recurs — status updates, pull requests, commit messages, reports, issues, specifications, briefings — fill the template instead of reinventing the structure each time. A template is a contract for the artifact's shape: the content can vary, but the required slots and order stay predictable enough to review, compare, automate, and improve.
+
+Templates live in one canonical home and are referenced, not copied. Use an existing template where one exists; create or promote one when a pattern recurs; version template changes so downstream consumers can see when a recurring format changed. This composes with Documentation (#9), Reuse & simplicity (#16 hierarchy-first), Audience-tailoring (#20), and Writing-style (#21): the template standard governs structure, while the audience and voice standards govern what the filled-in content says and how it sounds.
+
+*Foundation: DRY applied to content structure; convention over configuration; scaffolding/templating practice; technical-writing template practice.*[^cookiecutter][^iso26514]
+
+### 11. Version-aware state — persisted state carries version metadata
 
 Any durable, persisted state (config files, data files, schemas, specs, this document) carries a **version** so schema evolution and migration are safe. Use semantic versioning; timestamps in ISO 8601. Machine state uses structured metadata (e.g. a `_version` field); human-editable files (preference docs, agent-context files) may use a friendlier `version` in frontmatter and skip mandatory timestamps. Without version metadata, migrations become guesswork and silent corruption creeps in.
 
 *Foundation: schema-evolution / migration practice; semantic versioning.*
 
-### 11. Time-boxed exploration — bound the open-ended, force a decision
+### 12. Time-boxed exploration — bound the open-ended, force a decision
 
 Experiments, investigations, and exploratory work get an explicit **time box set before starting** (recorded in the tracked item or notes). At the limit, choose one of three outcomes: **continue** (with a new, justified box), **park** (archive with state + re-entry conditions), or **discard** (close it, delete throwaway artifacts). Viable work graduates to a real project; dead work gets closed, not left open indefinitely. Unbounded exploration becomes a graveyard — time boxes force the decision points that keep the backlog honest and the workspace light.
 
 *Foundation: Lean (timeboxing, limit WIP); Agile spikes; Cynefin (safe-to-fail probes in the complex domain).*
 
-### 12. Probabilistic judgment & calibration — beliefs should carry odds
+### 13. Probabilistic judgment & calibration — beliefs should carry odds
 
 For uncertain judgments, reason in probabilities and expected value instead of binary confidence. Anchor on base rates and reference classes before privileging the vivid case in front of you. State confidence in a way that can later be checked against reality, and judge decisions by the quality of the process given what was known at the time — not only by the outcome. When the stakes justify it, use premortems, prediction logs, and calibration review so belief quality improves over time.
 
@@ -196,7 +204,7 @@ This is Verification & Validation applied to beliefs: don't merely assert confid
 
 *Foundation: decision theory; Tversky & Kahneman on heuristics and biases; Tetlock on forecasting; Annie Duke on resulting and decision quality.*[^tversky-kahneman][^kahneman][^tetlock][^duke]
 
-### 13. Execution right-sizing — match mechanism, model, and effort to task structure
+### 14. Execution right-sizing — match mechanism, model, and effort to task structure
 
 Use the smallest sufficient execution style:
 
@@ -209,7 +217,7 @@ Do not use an expensive or open-ended agent when a checklist would be clearer; d
 
 *Foundation: Anthropic's workflow-vs-agent distinction; Cynefin; delegation practice; cost/quality allocation.*[^anthropic-agents]
 
-### 14. Data quality & integrity — trust data to the extent it's validated, consistent, and traceable
+### 15. Data quality & integrity — trust data to the extent it's validated, consistent, and traceable
 
 Data is an artifact with its own correctness, distinct from the conduct floor (0b). Where **0b Integrity** governs *honesty about reality*, this standard governs *data that faithfully represents reality* — and the bridge between them is the V&V core rule (#3): a claim is only as trustworthy as the evidence and data behind it. Treat data quality as a property you actively maintain, not assume.
 
@@ -221,9 +229,9 @@ Data is an artifact with its own correctness, distinct from the conduct floor (0
 
 **Provenance & lineage.** Track where data came from and how it was transformed, so trust is *traceable* rather than asserted. This generalizes the citation practice (#3, #9): a value you can trace to its source and transformations can be audited and corrected; one you can't is a liability dressed as a fact.
 
-**Fitness for use / garbage in, garbage out.** Quality is relative to the intended use — "good enough" for an exploratory probe is not "good enough" for a stakeholder decision (composes with graduated output quality, #19). And input quality bounds output quality: no amount of downstream processing rescues a conclusion built on corrupt or misrepresented data. When the inputs are weak, say so and bound the conclusion accordingly.
+**Fitness for use / garbage in, garbage out.** Quality is relative to the intended use — "good enough" for an exploratory probe is not "good enough" for a stakeholder decision (composes with graduated output quality, #20). And input quality bounds output quality: no amount of downstream processing rescues a conclusion built on corrupt or misrepresented data. When the inputs are weak, say so and bound the conclusion accordingly.
 
-This composes with: single-source-of-truth & no-duplication (#15 hierarchy-first), the V&V fidelity/reconciliation and input/source gates (#3), version-aware state for schema evolution (#10), and fail-closed/idempotent/preserve-and-report handling (#17). When the task *is* data engineering, also apply the data-engineering domain section below.
+This composes with: single-source-of-truth & no-duplication (#16 hierarchy-first), the V&V fidelity/reconciliation and input/source gates (#3), version-aware state for schema evolution (#11), and fail-closed/idempotent/preserve-and-report handling (#18). When the task *is* data engineering, also apply the data-engineering domain section below.
 
 *Foundation: DAMA-DMBOK; ISO/IEC 25012 (data quality model) and ISO 8000; Codd's relational integrity rules; ACID transactions; the CIA-triad integrity leg; data-contract / data-as-a-product practice.*[^dama-dmbok][^iso25012][^codd][^acid]
 
@@ -231,7 +239,7 @@ This composes with: single-source-of-truth & no-duplication (#15 hierarchy-first
 
 ## Design principles
 
-### 15. Reuse & simplicity — prefer existing tools; simple and elegant wins
+### 16. Reuse & simplicity — prefer existing tools; simple and elegant wins
 
 Reuse wherever possible: before building, check whether an existing tool, library, or pattern already does it. Compose existing pieces before writing new ones. Choose the **smallest solution that fully solves the problem**. Prefer a well-understood existing tool over a marginally-better-fit bespoke one — the maintenance and cognitive cost of one-more-custom-thing usually outweighs the fit gain. Don't over-engineer for an imagined future (YAGNI); add abstraction when duplication proves it's needed, not preemptively. New bespoke code should justify why nothing existing fit.
 
@@ -241,19 +249,19 @@ Reuse wherever possible: before building, check whether an existing tool, librar
 
 *Foundation: DRY / single-source-of-truth; layered configuration (broad defaults, narrow overrides).*
 
-### 16. Streamlined maintenance — automate the chore; humans avoid upkeep
+### 17. Streamlined maintenance — automate the chore; humans avoid upkeep
 
 Maintenance must be streamlined, because people don't reliably do recurring manual work — so it decays. Use a lightweight PDCA loop: log wins, misses, and surprises; convert repeated fixes into standards; periodically prune, merge, or retire rules that no longer pull their weight. Automate recurring chores with simple scripts/scheduled jobs. Prefer the **watchdog pattern**: silent when healthy, loud and actionable only when something needs attention, and fails loud (never silently) so a broken watchdog can't hide. Minimize touch points (zero-touch > one-touch). Keep the automation itself simple enough to read and fix quickly. (Cost/efficiency awareness and observability live here too: run the cheapest sufficient resource, and make state observable so you can manage it.)
 
 *Foundation: Google SRE (eliminate toil; automate it); Lean (just-in-time, kaizen); Pragmatic Programmer (automate everything repeatable).*
 
-### 17. Reliability & resilience — fail safe, degrade gracefully, recover fast
+### 18. Reliability & resilience — fail safe, degrade gracefully, recover fast
 
 Assume things will fail; design so failure is **safe, visible, and recoverable**. Fail *closed* (not open) when a precondition is missing. Make operations **idempotent** by default — re-running must be safe, which is mandatory for anything retried or unattended. Preserve-and-report blocked work; never silently drop it. Retry once on transient/indexing latency before concluding failure. Degrade gracefully when a non-essential dependency is missing. Design for **fast recovery**: keep backups before destructive operations, prefer reversible changes, make the rollback path explicit.
 
 *Foundation: AWS Well-Architected (reliability pillar); DORA (time-to-restore).*
 
-### 18. Fast feedback / small reversible changes — small, safe, frequent beats big, infrequent
+### 19. Fast feedback / small reversible changes — small, safe, frequent beats big, infrequent
 
 Prefer small, safe, reversible changes with fast feedback over large, infrequent, hard-to-reverse ones. Slice work thin — each slice leaves the system valid/shippable. Verify each slice quickly rather than batching all verification to the end. Integrate/push frequently; don't hoard completed work. Keep changes reversible (atomic commits, flags, backups). Prefer incremental over big-bang unless partial application would be genuinely unsafe (an atomic migration, a security fix that must land whole) — and state the reason when you choose big-bang.
 
@@ -265,7 +273,7 @@ Prefer small, safe, reversible changes with fast feedback over large, infrequent
 
 Every deliverable has a reader. These make sure it is aimed and voiced for that reader.
 
-### 19. Audience-tailoring — audience is a mandatory input; brevity wins
+### 20. Audience-tailoring — audience is a mandatory input; brevity wins
 
 The **audience is a mandatory input to every deliverable**. Before writing, identify who will read or use it — their role, altitude, prior context, the decision or action it enables, and the trust boundary — and **tailor the output to them**. The same facts take a different shape per audience: executives want outcomes and decisions; an implementing engineer wants mechanics. Lead with what that audience needs. **Brevity wins:** say it in the fewest words that fully serve the audience; cut preamble, restatement, and filler. If two audiences need different things, write two tailored cuts, not one compromise that serves neither.
 
@@ -281,7 +289,7 @@ The **audience is a mandatory input to every deliverable**. Before writing, iden
 
 When unsure of the tier, default to team-facing. Matching effort to audience is a resource-allocation decision, not a quality compromise.
 
-### 20. Writing-style — match the author's voice, getting more precise over time
+### 21. Writing-style — match the author's voice, getting more precise over time
 
 Prose written on someone's behalf must read like **they** wrote it, and the match must **improve over time**. Treat voice as a supervised, audience-specific profile: calibrate from real samples of their writing in that register, strip generic-AI tells, apply per draft, and fold reviewed edits back so each cycle is closer — an improvement ratchet, not a one-shot. Brevity applies here too. Anything external or published stays behind a review gate before it goes out.
 
@@ -303,9 +311,9 @@ Two words carry the weight. *Probability:* security is probabilistic, not binary
 
 1. **Zero Trust** — never trust by default; least-privilege, per-resource, continuously-verified access. Shrink the attack surface and blast radius so a compromise can't move freely. (Least-privilege, command-scoped, fail-closed credentials are Zero Trust applied to secrets — see standard #5.)
 2. **Intrusion Kill Chain Prevention** — model the adversary's sequence of steps and break it at multiple stages. Defend against the *campaign*, not a single indicator; map controls to real adversary playbooks, not a generic checklist.
-3. **Resilience** — assume prevention will sometimes fail; design so the organization survives and keeps delivering through an event. This is security's expression of the Reliability & resilience design principle (#17) — fail safe, degrade gracefully, recover fast.
+3. **Resilience** — assume prevention will sometimes fail; design so the organization survives and keeps delivering through an event. This is security's expression of the Reliability & resilience design principle (#18) — fail safe, degrade gracefully, recover fast.
 4. **Risk Forecasting** — estimate the probability of material impact *quantitatively* and update it as evidence arrives (Bayesian reasoning, not red/yellow/green heat maps). You can't manage "reduce probability" if you can't estimate it; forecasts guide where the marginal security dollar goes.
-5. **Automation** — **cuts across all four.** Encode the other strategies as code/infrastructure so they apply consistently, at scale, without manual toil or drift. This is security's expression of Streamlined maintenance (#16) and Fast feedback (#18).
+5. **Automation** — **cuts across all four.** Encode the other strategies as code/infrastructure so they apply consistently, at scale, without manual toil or drift. This is security's expression of Streamlined maintenance (#17) and Fast feedback (#19).
 
 *Foundation: Rick Howard, Cybersecurity First Principles (Wiley, 2023) — itself built on Zero Trust (Kindervag), the intrusion kill chain, resilience engineering, and Bayesian risk reasoning.*
 
@@ -359,12 +367,12 @@ Integrity is always-on; these situational practices apply when work acts on, rep
 
 ## Domain principles: data engineering & management
 
-The general standard #14 applies everywhere data is touched. When the task *is* building or operating data systems — pipelines, stores, integrations, analytics — apply these specifics on top.
+The general standard #15 applies everywhere data is touched. When the task *is* building or operating data systems — pipelines, stores, integrations, analytics — apply these specifics on top.
 
-- **Data contracts.** Treat the interface between a data producer and its consumers as an explicit, versioned contract (schema, semantics, freshness, quality guarantees), not an implicit assumption. A breaking change to the data is a breaking change to the contract (composes with #1 specifications and #10 version-aware state).
-- **Test data and transformations, not just code.** Pipelines fail silently on data, not just on exceptions. Assert expectations on the data itself — schema, row counts, null/range/uniqueness checks, distribution drift — at each stage, and fail loud when they break (the data-shaped form of #3 mechanical gates and #17 fail-closed).
+- **Data contracts.** Treat the interface between a data producer and its consumers as an explicit, versioned contract (schema, semantics, freshness, quality guarantees), not an implicit assumption. A breaking change to the data is a breaking change to the contract (composes with #1 specifications and #11 version-aware state).
+- **Test data and transformations, not just code.** Pipelines fail silently on data, not just on exceptions. Assert expectations on the data itself — schema, row counts, null/range/uniqueness checks, distribution drift — at each stage, and fail loud when they break (the data-shaped form of #3 mechanical gates and #18 fail-closed).
 - **Lineage as infrastructure.** Make provenance and transformation lineage queryable, not tribal knowledge — so any value can be traced to its sources and the impact of a source change can be assessed before it lands.
-- **Idempotent, reproducible processing.** Re-running a pipeline on the same input yields the same output; backfills and retries are safe by construction (composes with #17). Prefer reproducible transformations over in-place mutation so results can be regenerated and audited.
+- **Idempotent, reproducible processing.** Re-running a pipeline on the same input yields the same output; backfills and retries are safe by construction (composes with #18). Prefer reproducible transformations over in-place mutation so results can be regenerated and audited.
 - **Separate raw from derived; never lose the source.** Keep immutable raw/landing data distinct from cleaned and derived layers, so corrections can be re-derived from source rather than reconstructed from a corrupted middle.
 - **Quality SLAs scale with use.** Set explicit quality/freshness expectations proportional to how the data is used (exploratory vs. operational vs. stakeholder-facing), rather than treating all data as equally critical.
 
@@ -395,6 +403,7 @@ These principles are deliberately built on durable, widely-validated bodies of t
 | Personal operating systems | **Ray Dalio, Principles** | Explicit principles as decision algorithms; pain + reflection; believability-weighted input; mistake learning |
 | State evolution | **Semantic versioning**, schema-migration practice | Version-aware state; this spec's own versioning |
 | Communication | **Technical-communication practice** (know-your-audience, BLUF), **Strunk & White** | Audience-tailoring; graduated output quality; writing-style; brevity |
+| Recurring content structure | **DRY**, convention over configuration, scaffolding/templating practice, technical-writing template practice | Templates for recurring content; consistent artifact shape; versioned reusable boilerplate |
 | Security (domain) | **Cybersecurity First Principles** (Rick Howard) — reduce probability of material impact; Zero Trust, Kill Chain, Resilience, Risk Forecasting, Automation | The security domain section above |
 | Data quality & integrity | **DAMA-DMBOK**, **ISO/IEC 25012** & **ISO 8000**, **Codd** relational integrity, **ACID**, CIA-triad integrity, data-contract practice | Data quality & integrity standard; data engineering domain section |
 | Concrete conventions | **Conventional Commits**, **XDG Base Directory Specification** | Commit format; file layout |
@@ -417,7 +426,7 @@ New standards are not invented; they are **extracted from domains of expertise a
    - **Domain-specific** — only meaningful inside that field → a *domain principles* section (like security), applied on top of the general standards when working there.
    - **Already covered** — a restatement or special case of an existing standard → fold in as a sharpening, with a cross-reference, not a new entry.
    - **Folklore** — maps to no established framework and isn't broadly useful → discard, or hold until evidence accrues.
-5. **Check the hierarchy fit** — place each kept principle at the right level (global standard, domain section, or a downstream implementation's local override). Don't globalize something that's really project- or role-specific (standard #15, hierarchy-first).
+5. **Check the hierarchy fit** — place each kept principle at the right level (global standard, domain section, or a downstream implementation's local override). Don't globalize something that's really project- or role-specific (standard #16, hierarchy-first).
 6. **Record lineage** — every kept standard names its *Foundation*. No foundation, no promotion.
 7. **Version and propagate** — bump the spec version, update the CHANGELOG, then propagate to the downstream implementations.
 
@@ -486,5 +495,7 @@ This document is the **canonical source of record** for Phil's operating princip
 [^dora-accelerate]: Nicole Forsgren, Jez Humble, and Gene Kim, *Accelerate: The Science of Lean Software and DevOps* (IT Revolution, 2018).
 [^semver]: Tom Preston-Werner, *Semantic Versioning 2.0.0*, https://semver.org/.
 [^consumer-driven-contracts]: Martin Fowler, "Consumer-Driven Contracts" (2011), https://martinfowler.com/articles/consumerDrivenContracts.html.
+[^cookiecutter]: Audrey Roy Greenfeld and Daniel Roy Greenfeld, *Cookiecutter* project documentation, https://cookiecutter.readthedocs.io/.
+[^iso26514]: ISO/IEC/IEEE 26514:2022, *Systems and software engineering — Design and development of information for users*.
 
 *This document is intentionally free of any specific tool's internal mechanics so it stays portable, citable, and durable across whatever tools, devices, services, agents, and roles come and go.*
