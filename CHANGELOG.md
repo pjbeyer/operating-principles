@@ -4,6 +4,17 @@ All notable changes to the Operating Principles spec are recorded here. The proj
 
 This repo uses **Release Please** for managed release PRs, changelog maintenance, and tags going forward.
 
+## [0.5.0](https://github.com/pjbeyer/operating-principles/compare/v0.4.0...v0.5.0) (2026-06-21)
+
+
+### Features
+
+* establish Operating Principles spec v1.0.0 (source of record) ([881bfeb](https://github.com/pjbeyer/operating-principles/commit/881bfebf0d212aaf77d5b002aaf997279c3a9ffd))
+* spec v1.1.0 — reconcile parallel codifications + domain-examination method ([c7346ef](https://github.com/pjbeyer/operating-principles/commit/c7346eff0ba76eafb0ad9af372d8a53788006db0))
+* **spec:** add data quality & integrity (v0.4.0) ([5f8a832](https://github.com/pjbeyer/operating-principles/commit/5f8a8327cfc9f5cbb86e000e9e14c039dee567ce))
+* **spec:** adopt pre-v1 operating model ([276103f](https://github.com/pjbeyer/operating-principles/commit/276103f8575d3721df3a4dd9a01fdd3035fd50c8))
+* **spec:** adopt pre-v1 operating model ([e45249f](https://github.com/pjbeyer/operating-principles/commit/e45249febf36d2b5a7940384a5f1fa40363a86fc))
+
 ## 0.4.0 — 2026-06-18
 
 Integrated data quality & integrity, mined from the data management domain (Beads `op-q95.9`). Backward-compatible additions.
