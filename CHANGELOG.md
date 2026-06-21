@@ -4,6 +4,17 @@ All notable changes to the Operating Principles spec are recorded here. The proj
 
 This repo uses **Release Please** for managed release PRs, changelog maintenance, and tags going forward.
 
+## 0.7.0 — 2026-06-21
+
+Added templates for recurring content as a numbered operational standard (Beads `op-q95.17`). Backward-compatible addition with renumbering of later standards.
+
+### Added
+- **Standard #10 Templates for recurring content** — recurring deliverables use canonical, versioned templates for structure, required fields, section layout, and stable boilerplate.
+- **Foundations row and endnotes** — DRY/convention-over-configuration, scaffolding/templating practice, and technical-writing template practice.
+
+### Changed
+- Renumbered later operational/design/communication standards (old 10–20 → 11–21) and updated internal cross-references, including security and data-domain back-references.
+
 ## 0.6.0 — 2026-06-21
 
 Hardened the AI agent operations domain section with explicit standards for autonomous actors (Beads `op-q95.10`, `op-q95.11`, `op-q95.12`, `op-q95.13`, `op-q95.14`, `op-q95.15`, `op-q95.16`, `op-q95.18`). Backward-compatible domain-principle additions.
