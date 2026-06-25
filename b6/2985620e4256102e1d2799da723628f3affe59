@@ -1,0 +1,19 @@
+CLAUDE.md
+  s_6380905e954a3b::t_f64a8a438aa627 1,3
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.13",
+  "base_commit_sha": "b62985620e4256102e1d2799da723628f3affe59",
+  "prompts": {},
+  "sessions": {
+    "s_6380905e954a3b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7659c3d0-fa7e-4903-88ed-f24e21bb301e",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "Phil Beyer <6152278+pjbeyer@users.noreply.github.com>"
+    }
+  }
+}
