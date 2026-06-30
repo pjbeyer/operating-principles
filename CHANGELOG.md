@@ -4,6 +4,20 @@ All notable changes to the Operating Principles spec are recorded here. The proj
 
 This repo uses **Release Please** for managed release PRs, changelog maintenance, and tags going forward.
 
+## 0.8.0 — 2026-06-27
+
+Added the incident management domain section, mined from the incident management and safety engineering literature (Beads `op-2gr`). Backward-compatible domain-principle additions plus sharpenings to existing standards.
+
+### Added
+- **Domain principles: incident management** — preparation is non-negotiable; separate process from technical response (IC vs. ops lead); classify severity honestly and up when ambiguous; contain first, diagnose after; communicate on a cadence (silence is the worst signal); review blamelessly and learn systemically (multi-causal analysis, tracked action items folded back into prevention). Explicitly distinguished from #18 (design-time resilience) as the run-time operational counterpart.
+- **Foundations row** — Google SRE (incident management & postmortem culture), NIST SP 800-61, SANS PICERL, ISO/IEC 27035, FEMA ICS/NIMS, James Reason (Swiss Cheese Model), HRO (Weick & Sutcliffe), Erik Hollnagel (Resilience Engineering / Safety-II), Nancy Leveson (STAMP), US Army AAR, ITIL incident management.
+- **Endnotes** — SRE Book Ch.14, SRE Workbook Ch.10, NIST SP 800-61, Reason, Weick & Sutcliffe, Hollnagel, Leveson, US Army AAR.
+
+### Changed
+- **#18 Reliability & resilience** — added cross-reference to the incident management domain (design-time vs. run-time distinction).
+- **#3 Verification & Validation** — sharpened the intentional review-gate paragraph to name postmortems as a specialized review gate with a cross-reference to the incident management domain.
+- **#12 Probabilistic judgment & calibration** — added severity classification as a direct application of probabilistic judgment under uncertainty.
+
 ## 0.7.0 — 2026-06-21
 
 Added templates for recurring content as a numbered operational standard (Beads `op-q95.17`). Backward-compatible addition with renumbering of later standards.

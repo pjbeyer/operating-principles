@@ -1,6 +1,6 @@
 # Phil's Operating Principles — a personal specification
 
-**Spec version: 0.7.0** · Status: pre-1.0 active draft · Canonical source of record (see *Status & canonical home* below)
+**Spec version: 0.8.0** · Status: pre-1.0 active draft · Canonical source of record (see *Status & canonical home* below)
 
 This document is a **specification for how Phil's entire system of work should operate.** It is not documentation *about* a tool — it is the source specification that tools, devices, services, apps, agents, and even employment positions are expected to **conform to**. When Phil configures an AI agent, sets up a workstation, adopts a service, or evaluates a job, the question is: *does it operate the way this spec describes?*
 
@@ -118,7 +118,7 @@ Two distinct checks, both required:
 
 **Gate taxonomy:** input · source · conformance · hygiene · build/test · fidelity · review · critique · fetch-back · closeout. Classify each gate as mechanical or judgment.
 
-**Human review gates are designed intentionally** — not reflexive, not permanent. Classify each side-effecting gate as **graduating** (start gated; step down toward automation as it earns *evidence of clean, reversible, side-effect-safe runs*) or **always-gated** (keeps a human gate no matter how good it gets — irreversible publication, money/credentials/security posture, destructive ops without clean undo, communications in your name). State the class and why; never silently drop a gate because output "looked good lately."
+**Human review gates are designed intentionally** — not reflexive, not permanent. Classify each side-effecting gate as **graduating** (start gated; step down toward automation as it earns *evidence of clean, reversible, side-effect-safe runs*) or **always-gated** (keeps a human gate no matter how good it gets — irreversible publication, money/credentials/security posture, destructive ops without clean undo, communications in your name). State the class and why; never silently drop a gate because output "looked good lately." Post-incident reviews (postmortems) are a specialized review gate — see *Domain principles: incident management* for blameless-review and multi-causal analysis practice.
 
 **Trust graduates on evidence (the autonomy ratchet).** An automated actor *earns* autonomy by demonstrating accuracy over real runs, and can lose it: review-every-run → spot-check → dry-run-only → fully automated, stepping back a level on a failure. Wrong outputs are corrected inline; *systematic* mistakes are filed as defects and fed back so the actor improves. The human's role shifts from executor to architect/overseer — designing the pipelines, reviewing the high-trust gates, and promoting or demoting trust tiers. This is how a small team (or one person) scales through automation without surrendering the always-gated decisions.
 
@@ -200,7 +200,7 @@ Experiments, investigations, and exploratory work get an explicit **time box set
 
 For uncertain judgments, reason in probabilities and expected value instead of binary confidence. Anchor on base rates and reference classes before privileging the vivid case in front of you. State confidence in a way that can later be checked against reality, and judge decisions by the quality of the process given what was known at the time — not only by the outcome. When the stakes justify it, use premortems, prediction logs, and calibration review so belief quality improves over time.
 
-This is Verification & Validation applied to beliefs: don't merely assert confidence; make it auditable.
+This is Verification & Validation applied to beliefs: don't merely assert confidence; make it auditable. Severity classification in incident management is a direct application — classify up when ambiguous, because the cost of a false high-severity is a short debrief while the cost of a delayed high-severity is compounded impact (see *Domain principles: incident management*).
 
 *Foundation: decision theory; Tversky & Kahneman on heuristics and biases; Tetlock on forecasting; Annie Duke on resulting and decision quality.*[^tversky-kahneman][^kahneman][^tetlock][^duke]
 
@@ -257,9 +257,9 @@ Maintenance must be streamlined, because people don't reliably do recurring manu
 
 ### 18. Reliability & resilience — fail safe, degrade gracefully, recover fast
 
-Assume things will fail; design so failure is **safe, visible, and recoverable**. Fail *closed* (not open) when a precondition is missing. Make operations **idempotent** by default — re-running must be safe, which is mandatory for anything retried or unattended. Preserve-and-report blocked work; never silently drop it. Retry once on transient/indexing latency before concluding failure. Degrade gracefully when a non-essential dependency is missing. Design for **fast recovery**: keep backups before destructive operations, prefer reversible changes, make the rollback path explicit.
+Assume things will fail; design so failure is **safe, visible, and recoverable**. Fail *closed* (not open) when a precondition is missing. Make operations **idempotent** by default — re-running must be safe, which is mandatory for anything retried or unattended. Preserve-and-report blocked work; never silently drop it. Retry once on transient/indexing latency before concluding failure. Degrade gracefully when a non-essential dependency is missing. Design for **fast recovery**: keep backups before destructive operations, prefer reversible changes, make the rollback path explicit. This standard governs how to **build** systems that fail safe; for how to **operate** when a failure is happening now, see *Domain principles: incident management*.
 
-*Foundation: AWS Well-Architected (reliability pillar); DORA (time-to-restore).*
+*Foundation: AWS Well-Architected (reliability pillar); DORA (time-to-restore).*[^aws-reliability][^dora-accelerate]
 
 ### 19. Fast feedback / small reversible changes — small, safe, frequent beats big, infrequent
 
@@ -380,6 +380,21 @@ The general standard #15 applies everywhere data is touched. When the task *is* 
 
 ---
 
+## Domain principles: incident management
+
+The general standards — especially *Reliability & resilience* (#18, design-time) and *V&V* (#3, postmortems as a review gate) — apply everywhere. When the task *is* responding to an active incident or managing the incident lifecycle, apply these specifics on top. The key distinction: #18 governs how to **build** systems that fail safe; this section governs how to **operate** when the failure is happening now.
+
+- **Preparation is non-negotiable.** Game out responses before they happen: runbooks, tabletop exercises, pre-assigned roles, and contact lists that are kept current. Every major incident framework converges on this — the time to discover your plan has a gap is not during the incident. Preparation is the prerequisite that makes every other principle actionable under pressure.
+- **Separate process from technical response.** The incident commander (coordination, comms cadence, severity decisions, handoffs) and the ops lead (diagnosis, mitigation, recovery execution) are distinct responsibilities. Don't collapse them under pressure — a person deep in the technical problem can't hold the big picture. Don't freelance: coordinate changes through the chain of command so well-intentioned uncoordinated actions don't compound the incident.
+- **Classify severity honestly; classify up when ambiguous.** Severity is a probabilistic judgment (#12): impact × urgency → priority. When evidence is ambiguous, classify *up* one level and note the uncertainty — the cost of a false high-severity is a short debrief; the cost of a delayed high-severity is compounded impact. Security events default to the highest tier regardless of perceived blast radius.
+- **Contain first, diagnose after.** When active harm is occurring, bias toward containment over investigation. Stop the bleeding, then understand why it happened. A contained incident with an unknown root cause is recoverable; an uncontained incident with a perfect root-cause analysis is still causing damage.
+- **Communicate on a cadence; silence is the worst signal.** Post updates at a regular interval even when there's nothing new. Silence during an incident means stakeholders assume the worst. Communication is a first-class incident role, not an afterthought — it keeps stakeholders calibrated and prevents the information vacuum from being filled with speculation.
+- **Review blamelessly; learn systemically.** Post-incident reviews focus on *system* failures, not individual fault — psychological safety is what makes honest reporting and learning possible. Don't seek a single "root cause"; incidents are multi-causal (active failures + latent conditions). Look for control-structure failures: what safety constraint was inadequate, and why did the defenses in depth not catch it? Every incident produces tracked action items folded back into prevention — an incident is not truly closed until its action items are completed and verified.
+
+*Foundation: Google SRE (incident management and postmortem culture, SRE Book Ch.14 / Workbook Ch.10); NIST SP 800-61 (incident handling lifecycle); SANS PICERL; ISO/IEC 27035; FEMA Incident Command System / NIMS; James Reason (Swiss Cheese Model); High Reliability Organizations (Weick & Sutcliffe); Erik Hollnagel (Resilience Engineering / Safety-II); Nancy Leveson (STAMP); US Army After Action Review; ITIL incident management.*[^sre-incident][^sre-postmortem][^nist-800-61][^reason-swiss-cheese][^hro][^hollnagel-resilience][^leveson-stamp][^aar]
+
+---
+
 ## Foundations — the frameworks these derive from
 
 These principles are deliberately built on durable, widely-validated bodies of thought rather than private theory. The point of naming them: when extending or questioning a principle, go back to the framework rather than re-deriving from scratch.
@@ -406,6 +421,7 @@ These principles are deliberately built on durable, widely-validated bodies of t
 | Recurring content structure | **DRY**, convention over configuration, scaffolding/templating practice, technical-writing template practice | Templates for recurring content; consistent artifact shape; versioned reusable boilerplate |
 | Security (domain) | **Cybersecurity First Principles** (Rick Howard) — reduce probability of material impact; Zero Trust, Kill Chain, Resilience, Risk Forecasting, Automation | The security domain section above |
 | Data quality & integrity | **DAMA-DMBOK**, **ISO/IEC 25012** & **ISO 8000**, **Codd** relational integrity, **ACID**, CIA-triad integrity, data-contract practice | Data quality & integrity standard; data engineering domain section |
+| Incident management (domain) | **Google SRE** (incident management & postmortem culture); **NIST SP 800-61**; **SANS PICERL**; **ISO/IEC 27035**; **FEMA ICS/NIMS**; **James Reason** (Swiss Cheese Model); **HRO** (Weick & Sutcliffe); **Erik Hollnagel** (Resilience Engineering / Safety-II); **Nancy Leveson** (STAMP); **US Army AAR**; **ITIL** incident management | The incident management domain section above |
 | Concrete conventions | **Conventional Commits**, **XDG Base Directory Specification** | Commit format; file layout |
 
 ### A note on Cynefin (why several rules are *decision rules*, not fixed procedures)
@@ -497,5 +513,21 @@ This document is the **canonical source of record** for Phil's operating princip
 [^consumer-driven-contracts]: Martin Fowler, "Consumer-Driven Contracts" (2011), https://martinfowler.com/articles/consumerDrivenContracts.html.
 [^cookiecutter]: Audrey Roy Greenfeld and Daniel Roy Greenfeld, *Cookiecutter* project documentation, https://cookiecutter.readthedocs.io/.
 [^iso26514]: ISO/IEC/IEEE 26514:2022, *Systems and software engineering — Design and development of information for users*.
+
+[^sre-incident]: Betsy Beyer et al., eds., *Site Reliability Engineering: How Google Runs Production Systems* (O'Reilly, 2016), Chapter 14, "Managing Incidents," https://sre.google/sre-book/managing-incidents/.
+
+[^sre-postmortem]: Betsy Beyer et al., eds., *The Site Reliability Workbook: Practical Ways to Implement SRE* (O'Reilly, 2018), Chapter 10, "Postmortem Culture: Learning from Failure," https://sre.google/workbook/postmortem-culture/.
+
+[^nist-800-61]: NIST Special Publication 800-61 Rev. 2, *Computer Security Incident Handling Guide* (August 2012); SP 800-61 Rev. 3, *Incident Response Recommendations* (2024), https://csrc.nist.gov/pubs/sp/800/61.
+
+[^reason-swiss-cheese]: James Reason, *Human Error* (Cambridge University Press, 1990); James Reason, "The Contribution of Latent Human Failures to the Breakdown of Complex Systems," *Philosophical Transactions of the Royal Society of London B* 327, no. 1241 (1990): 475–484.
+
+[^hro]: Karl E. Weick and Kathleen M. Sutcliffe, *Managing the Unexpected: Sustained Performance in a Complex World*, 3rd ed. (Wiley, 2015); Karl E. Weick, "The Collapse of Sensemaking in Organizations: The Mann Gulch Disaster," *Administrative Science Quarterly* 38, no. 4 (1993): 628–652.
+
+[^hollnagel-resilience]: Erik Hollnagel, *Safety-I and Safety-II: The Past and Future of Safety Management* (Ashgate, 2014); Erik Hollnagel, J. Paries, D. Woods, and N. Wreathall, eds., *Resilience Engineering in Practice: A Guidebook* (Ashgate, 2011).
+
+[^leveson-stamp]: Nancy G. Leveson, *Engineering a Safer World: Systems Thinking Applied to Safety* (MIT Press, 2012), STAMP (System-Theoretic Accident Model and Processes), http://sunnyday.mit.edu/accidents/safetyscience-single.pdf.
+
+[^aar]: U.S. Army, *Field Manual 7-0, Training Units and Developing Leaders for Combat*, Appendix K, "After Action Reviews"; U.S. Army Combined Arms Center, *Leader's Guide to After-Action Reviews* (Training Circular 25-20).
 
 *This document is intentionally free of any specific tool's internal mechanics so it stays portable, citable, and durable across whatever tools, devices, services, agents, and roles come and go.*
