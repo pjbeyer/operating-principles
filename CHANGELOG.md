@@ -4,6 +4,14 @@ All notable changes to the Operating Principles spec are recorded here. The proj
 
 This repo uses **Release Please** for managed release PRs, changelog maintenance, and tags going forward.
 
+## 0.6.0 — 2026-06-21
+
+Hardened the AI agent operations domain section with explicit standards for autonomous actors (Beads `op-q95.10`, `op-q95.11`, `op-q95.12`, `op-q95.13`, `op-q95.14`, `op-q95.15`, `op-q95.16`, `op-q95.18`). Backward-compatible domain-principle additions.
+
+### Added
+- **AI agent operations hardening** — instruction integrity/trust boundaries, conformance self-audit, least-authority action, scope/instruction fidelity, auditability of consequential actions, bounded autonomy/stop conditions, reversibility for world-affecting actions, and change propagation to downstream implementations.
+- **Foundations rows and endnotes** — OWASP LLM Top 10, confused-deputy/capability-security/least-privilege sources, IEEE 1012/PDCA process-audit grounding, auditability/observability sources, circuit breakers, AWS reliability/DORA, semantic versioning, and consumer-driven contracts.
+
 ## [0.5.0](https://github.com/pjbeyer/operating-principles/compare/v0.4.0...v0.5.0) (2026-06-21)
 
 
