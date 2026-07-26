@@ -1,8 +1,8 @@
 {
   "database": "dolt",
   "backend": "dolt",
-  "dolt_mode": "embedded",
-  "dolt_database": "op",
-  "project_id": "24ec457f-6e6f-42ba-9dcd-3600fbc04d5a",
-  "last_bd_version": "1.1.0"
+  "dolt_mode": "server",
+  "dolt_server_port": 3307,
+  "dolt_database": "operating_principles",
+  "project_id": "24ec457f-6e6f-42ba-9dcd-3600fbc04d5a"
 }
