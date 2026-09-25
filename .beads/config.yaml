@@ -68,3 +68,4 @@
 sync.remote: "git+https://github.com/pjbeyer/operating-principles.git"
 dolt:
     port: 3307
+    auto-push: false
